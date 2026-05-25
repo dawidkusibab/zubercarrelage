@@ -1,0 +1,130 @@
+.zf-portfolio {
+  padding: 90px 0;
+  background: var(--cream);
+}
+
+.zf-portfolio-header {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  h2 {
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 700;
+    margin: 0;
+  }
+}
+
+.zf-portfolio-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.zf-filter-btn {
+  background: transparent;
+  border: 1.5px solid var(--beige-dark);
+  color: var(--dark);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 7px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &.active,
+  &:hover {
+    background: var(--dark);
+    color: var(--white);
+    border-color: var(--dark);
+  }
+}
+
+.zf-portfolio-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.zf-portfolio-item {
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  cursor: pointer;
+
+  &.hidden {
+    display: none;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover img { transform: scale(1.05); }
+
+  &:hover .zf-portfolio-overlay {
+    opacity: 1;
+  }
+}
+
+.zf-portfolio-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  h4 {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0 0 4px;
+  }
+
+  p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+.zf-portfolio-cta {
+  text-align: center;
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  .zf-portfolio-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .zf-portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .zf-portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+}

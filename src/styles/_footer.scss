@@ -1,0 +1,115 @@
+.zf-footer {
+  background: var(--dark);
+  color: var(--white);
+  padding: 70px 0 30px;
+}
+
+.zf-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 40px;
+}
+
+.zf-footer-brand {
+  .zf-logo {
+    color: var(--white);
+    display: block;
+    margin-bottom: 16px;
+
+    span { color: var(--terracotta); }
+  }
+}
+
+.zf-footer-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.zf-footer-phone {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+
+  span {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 4px;
+  }
+}
+
+.zf-footer-col {
+  h4 {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+}
+
+.zf-footer-links {
+  li { margin-bottom: 10px; }
+
+  a {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 0.2s;
+
+    &:hover { color: var(--terracotta); }
+  }
+}
+
+.zf-footer-bottom {
+  max-width: 1200px;
+  margin: 50px auto 0;
+  padding: 20px 40px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+  }
+}
+
+.zf-footer-socials {
+  display: flex;
+  gap: 10px;
+}
+
+.zf-social-link {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+  }
+}
+
+@media (max-width: 1100px) {
+  .zf-footer-inner { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .zf-footer-inner { grid-template-columns: 1fr; }
+  .zf-footer-bottom { flex-direction: column; gap: 16px; }
+}

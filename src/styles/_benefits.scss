@@ -1,0 +1,90 @@
+.zf-benefits {
+  padding: 90px 0;
+  background: var(--cream);
+}
+
+.zf-benefits-subtitle {
+  text-align: center;
+  font-family: var(--font-italic);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--terracotta);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.zf-benefits-title {
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.zf-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.zf-benefit-card {
+  background: var(--white);
+  border-radius: 60px;
+  padding: 28px 30px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border: 1.5px solid var(--beige-dark);
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--terracotta);
+    box-shadow: 0 8px 28px rgba(200, 96, 42, 0.12);
+  }
+}
+
+.zf-benefit-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid var(--beige-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--cream);
+
+  svg {
+    width: 26px;
+    height: 26px;
+    color: var(--accent);
+  }
+}
+
+.zf-benefit-text {
+  h4 {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  p {
+    font-size: 13px;
+    color: var(--gray);
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 1100px) {
+  .zf-benefits-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .zf-benefits-grid { grid-template-columns: 1fr; }
+}

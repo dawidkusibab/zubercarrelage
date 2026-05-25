@@ -1,0 +1,143 @@
+.zf-contact {
+  padding: 90px 0;
+  background: var(--beige);
+}
+
+.zf-contact-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 60px;
+}
+
+.zf-contact-info {
+  h2 {
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .zf-section-tag {
+    text-align: left;
+    margin-bottom: 16px;
+  }
+}
+
+.zf-contact-details {
+  margin-top: 32px;
+}
+
+.zf-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.zf-contact-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--white);
+  font-size: 18px;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--white);
+  }
+}
+
+.zf-contact-item-text {
+  span {
+    display: block;
+    font-size: 13px;
+    color: var(--gray-light);
+    margin-bottom: 2px;
+  }
+
+  p {
+    font-size: 15px;
+    color: var(--dark);
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+.zf-contact-form {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+}
+
+.zf-form-group {
+  margin-bottom: 16px;
+
+  input,
+  textarea {
+    width: 100%;
+    background: var(--cream);
+    border: 1.5px solid var(--beige-dark);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--dark);
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: var(--terracotta);
+    }
+  }
+
+  textarea {
+    resize: none;
+    height: 110px;
+  }
+}
+
+.btn-submit {
+  width: 100%;
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 8px;
+
+  &:hover { background: var(--accent-dark); }
+}
+
+.zf-form-success {
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  color: var(--success-text);
+  font-size: 14px;
+}
+
+@media (max-width: 1100px) {
+  .zf-contact-inner { grid-template-columns: 1fr; }
+}
