@@ -2,32 +2,31 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/zubercarrelage/';
-const BEHOLD_API = 'https://feeds.behold.so/kJjXg30b90IsyawsTcc3';
+const FEED_API = process.env.GATSBY_INSTAGRAM_FEED_URL ?? 'https://instagram-feed-api-production.up.railway.app/api/feed';
 
-interface BeholdPostSize {
+interface FeedPostSize {
   mediaUrl: string;
   height: number;
   width: number;
 }
 
-interface BeholdPost {
+interface FeedPost {
   id: string;
-  mediaUrl: string;
+  mediaUrl?: string;
   mediaType: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
-  caption: string | null;
+  caption: string;
   timestamp: string;
   permalink: string;
   thumbnailUrl?: string;
-  sizes?: {
-    small?: BeholdPostSize;
-    medium?: BeholdPostSize;
-    large?: BeholdPostSize;
+  sizes: {
+    small:  FeedPostSize;
+    medium: FeedPostSize;
+    large:  FeedPostSize;
   };
 }
 
-interface BeholdFeed {
-  posts: BeholdPost[];
-  username: string;
+interface Feed {
+  posts: FeedPost[];
 }
 
 const getVisibleCount = (): number => {
@@ -37,20 +36,18 @@ const getVisibleCount = (): number => {
   return 3;
 };
 
-const getImageUrl = (post: BeholdPost): string => {
-  // Use Behold's CDN (medium size) — Instagram direct URLs have hotlink protection
+const getImageUrl = (post: FeedPost): string => {
   if (post.sizes?.medium?.mediaUrl) return post.sizes.medium.mediaUrl;
   if (post.sizes?.large?.mediaUrl) return post.sizes.large.mediaUrl;
   if (post.sizes?.small?.mediaUrl) return post.sizes.small.mediaUrl;
-  // Fallback: video thumbnail or direct mediaUrl
-  return post.mediaType === 'VIDEO' && post.thumbnailUrl ? post.thumbnailUrl : post.mediaUrl;
+  return post.mediaType === 'VIDEO' && post.thumbnailUrl ? post.thumbnailUrl : (post.mediaUrl ?? '');
 };
 
-const getCaption = (post: BeholdPost): string =>
+const getCaption = (post: FeedPost): string =>
   post.caption ? post.caption.slice(0, 80) + (post.caption.length > 80 ? '…' : '') : '';
 
 const InstagramCarousel: React.FC = () => {
-  const [posts, setPosts] = useState<BeholdPost[]>([]);
+  const [posts, setPosts] = useState<FeedPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -60,10 +57,10 @@ const InstagramCarousel: React.FC = () => {
 
   // Fetch posts at runtime
   useEffect(() => {
-    fetch(BEHOLD_API)
+    fetch(FEED_API)
       .then(res => {
         if (!res.ok) throw new Error('fetch failed');
-        return res.json() as Promise<BeholdFeed>;
+        return res.json() as Promise<Feed>;
       })
       .then(data => {
         setPosts(data.posts ?? []);
