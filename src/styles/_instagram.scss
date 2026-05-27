@@ -20,10 +20,9 @@ $ig-gradient: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
   max-width: 1150px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 }
 
 .zf-ig-header-left {
