@@ -100,18 +100,6 @@ const Contact: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* Google Maps embed */}
-          <iframe
-            title="Localisation Zuber Carrelage"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2737.5!2d7.5284!3d46.2924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478ee40e1a3ef895%3A0x1234!2sSierre%2C+Valais!5e0!3m2!1sfr!2sch!4v1234567890"
-            width="100%"
-            height="200"
-            style={{ border: 0, borderRadius: '12px', marginTop: '24px' }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
         </div>
 
         {/* Right form column */}
