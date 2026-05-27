@@ -1,6 +1,6 @@
 import React from 'react';
-import img1 from '../images/1.png';
-import img2 from '../images/2.png';
+import img1 from '../images/1.jpg';
+import img2 from '../images/2.jpg';
 import { smoothScrollTo } from '../utils/smoothScroll';
 
 const Hero: React.FC = () => {
@@ -45,11 +45,10 @@ const Hero: React.FC = () => {
           </span>
           <h1 className="zf-hero-title hero-title-anim">Zuber &amp; Fils Carrelage</h1>
           <p className="zf-hero-sub hero-sub-anim">
-            Oubliez vos carreaux démodés ou cassés. Et oui, en associant les bons matériaux, vous pouvez
-            dorénavant créer des pièces aux allures élégantes et modernes grâce à une réalisation unique
-            et sur mesure.
+            Depuis 1988, nous posons le carrelage avec la précision d&apos;un maître fédéral et la passion d&apos;une famille. Rénovation, nouvelle construction ou projet sur mesure — chaque détail est soigné, chaque réalisation est unique.
           </p>
-          <a href="#portfolio" className="btn-gallery hero-btn-anim" onClick={(e) => handleNavClick(e, '#portfolio')}>
+          {/* Desktop button */}
+          <a href="#portfolio" className="btn-gallery hero-btn-anim zf-hero-btn-desktop" onClick={(e) => handleNavClick(e, '#portfolio')}>
             Voir Notre Galerie
           </a>
         </div>
@@ -66,6 +65,11 @@ const Hero: React.FC = () => {
             className="zf-hero-img-small hero-img-small-anim"
           />
         </div>
+
+        {/* Mobile button — shown below image on mobile only */}
+        <a href="#portfolio" className="btn-gallery hero-btn-anim zf-hero-btn-mobile" onClick={(e) => handleNavClick(e, '#portfolio')}>
+          Voir Notre Galerie
+        </a>
       </div>
     </section>
   );

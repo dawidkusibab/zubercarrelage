@@ -59,6 +59,7 @@
   color: var(--gray);
   line-height: 1.8;
   margin-bottom: 16px;
+  text-align: justify;
 }
 
 // CTA BUTTON — pill, terracotta outline
@@ -120,7 +121,7 @@
   font-family: var(--font-heading);
   font-size: clamp(36px, 4vw, 52px);
   font-weight: 700;
-  color: var(--terracotta);
+  color: var(--white);
   display: block;
   line-height: 1;
   margin-bottom: 8px;
@@ -146,6 +147,19 @@
     margin: 0 auto;
     width: 100%;
   }
+
+  .zf-company-text {
+    align-items: center;
+    text-align: center;
+  }
+
+  .zf-company-desc {
+    text-align: center;
+  }
+
+  .zf-company-cta {
+    align-self: center;
+  }
 }
 
 @media (max-width: 600px) {
@@ -160,7 +174,6 @@
   .zf-company-stats {
     flex-direction: column;
     gap: 32px;
-    padding: 48px 20px;
   }
 
   .zf-company-stat:not(:last-child)::after {

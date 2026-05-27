@@ -26,14 +26,19 @@ const Company: React.FC = () => {
             Une Entreprise Familiale<br />depuis 1988
           </h2>
           <p className="zf-company-desc">
-            Zuber &amp; Fils Carrelage est une entreprise familiale fondée en 1988 par Christian et
-            Olivier Zuber. Depuis 2017, suite au départ à la retraite de Christian, c&apos;est David
-            qui a repris les rênes de la société, toujours secondé par son père Olivier.
+            Fini les carreaux démodés ou abîmés ! L&apos;association des bons matériaux permet aujourd’hui
+            de transformer vos intérieurs en espaces élégants et modernes. Chez Zuber &amp; Fils Carrelage,
+            nous donnons vie à vos envies grâce à des réalisations uniques, conçues sur mesure pour votre habitat.
           </p>
           <p className="zf-company-desc">
-            Principalement actif dans la rénovation, nous nous sommes forgés, depuis plus de 35 ans,
-            une solide réputation dans tout le Valais. Titulaires de maîtrises fédérales, experts en
-            cas de litige, formateurs en entreprise et experts au CFC.
+            Fondée en 1988 par Christian Zuber et son frère Olivier, l’entreprise Zuber  &amp; 
+            Fils Carrelage perpétue une tradition familiale d’excellence. Après le départ à la retraite de Christian en 2017, 
+            puis celui d’Olivier en 2024, c’est aujourd’hui moi, David Zuber, qui assure seul la direction de la société. 
+            Fort de cet héritage et de l’expérience transmise par mon père, je poursuis l’engagement de qualité qui a forgé 
+            la réputation de l’entreprise depuis plus de 35 ans.
+          </p>
+          <p className="zf-company-desc">
+            Spécialisés dans la rénovation, nous mettons un point d’honneur à vous assurer un travail propre et soigné, dans les temps.
           </p>
           <a
             href="#contact"
