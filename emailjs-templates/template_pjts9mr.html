@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nouvelle demande de devis</title>
+</head>
+<body style="margin:0;padding:0;background:#f5f0eb;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f0eb;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="580" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+
+          <!-- Header -->
+          <tr>
+            <td style="background:#1a1a1a;padding:32px 40px;text-align:center;">
+              <p style="margin:0;font-size:22px;font-weight:700;color:#ffffff;letter-spacing:1px;">
+                Zuber<span style="color:#C8602A;">&amp;Fils</span>
+              </p>
+              <p style="margin:6px 0 0;font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;">
+                Carrelage · Depuis 1988
+              </p>
+            </td>
+          </tr>
+
+          <!-- Title bar -->
+          <tr>
+            <td style="background:#C8602A;padding:14px 40px;">
+              <p style="margin:0;font-size:13px;font-weight:600;color:#ffffff;letter-spacing:1.5px;text-transform:uppercase;">
+                Nouvelle demande de devis
+              </p>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:36px 40px;">
+              <p style="margin:0 0 24px;font-size:15px;color:#555;line-height:1.6;">
+                Bonjour <strong>{{to_name}}</strong>,<br/>
+                Vous avez reçu une nouvelle demande de devis via le site web.
+              </p>
+
+              <!-- Info table -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
+                <tr>
+                  <td style="padding:10px 16px;background:#f5f0eb;border-radius:8px 8px 0 0;border-bottom:1px solid #ede8e2;">
+                    <p style="margin:0;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;">Nom</p>
+                    <p style="margin:4px 0 0;font-size:15px;color:#1a1a1a;font-weight:600;">{{from_name}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 16px;background:#f5f0eb;border-bottom:1px solid #ede8e2;">
+                    <p style="margin:0;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;">Email</p>
+                    <p style="margin:4px 0 0;font-size:15px;color:#C8602A;font-weight:500;">{{from_email}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 16px;background:#f5f0eb;border-radius:0 0 8px 8px;">
+                    <p style="margin:0;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;">Téléphone</p>
+                    <p style="margin:4px 0 0;font-size:15px;color:#1a1a1a;font-weight:500;">{{from_phone}}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Message -->
+              <p style="margin:0 0 8px;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;">Message</p>
+              <div style="background:#f5f0eb;border-left:3px solid #C8602A;border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:32px;">
+                <p style="margin:0;font-size:15px;color:#333;line-height:1.7;">{{message}}</p>
+              </div>
+
+              <!-- CTA -->
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="border-radius:50px;background:#C8602A;">
+                    <a href="mailto:{{from_email}}" style="display:inline-block;padding:13px 28px;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;letter-spacing:0.5px;">
+                      Répondre à {{from_name}}
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background:#f5f0eb;padding:20px 40px;border-top:1px solid #ede8e2;text-align:center;">
+              <p style="margin:0;font-size:12px;color:#aaa;">
+                Ce message a été envoyé depuis le formulaire de contact de
+                <a href="https://zubercarrelage.com" style="color:#C8602A;text-decoration:none;">zubercarrelage.com</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

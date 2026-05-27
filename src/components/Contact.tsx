@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import emailjs from '@emailjs/browser';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
+const SERVICE_ID  = 'service_tog9uv1';
+const TEMPLATE_ID = 'template_pjts9mr';
+const PUBLIC_KEY  = 'user_c2Pm1FXs32XHkdboahfVI';
+
 interface FormState {
-  userName: string;
-  userPhone: string;
-  userEmail: string;
-  userMessage: string;
+  from_name:  string;
+  from_phone: string;
+  from_email: string;
+  message:    string;
 }
+
+type Status = 'idle' | 'sending' | 'success' | 'error';
 
 const MapPinIcon: React.FC = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -30,30 +37,44 @@ const MailIcon: React.FC = () => (
 
 const Contact: React.FC = () => {
   const [form, setForm] = useState<FormState>({
-    userName: '',
-    userPhone: '',
-    userEmail: '',
-    userMessage: '',
+    from_name:  '',
+    from_phone: '',
+    from_email: '',
+    message:    '',
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<Status>('idle');
 
   const { ref, isVisible } = useScrollReveal(0.15);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { userName, userEmail, userMessage } = form;
-    const subject = encodeURIComponent('Demande de devis — Zuber & Fils Carrelage');
-    const body = encodeURIComponent(
-      `Nom: ${userName}\nEmail: ${userEmail}\nTéléphone: ${form.userPhone}\n\nMessage:\n${userMessage}`
-    );
-    window.location.href = `mailto:info@zubercarrelage.ch?subject=${subject}&body=${body}`;
-    setSubmitted(true);
-  };
+    setStatus('sending');
+
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name:  form.from_name,
+          from_email: form.from_email,
+          from_phone: form.from_phone,
+          message:    form.message,
+          to_name:    'Zuber & Fils Carrelage',
+        },
+        PUBLIC_KEY
+      );
+
+      setStatus('success');
+      setForm({ from_name: '', from_phone: '', from_email: '', message: '' });
+    } catch {
+      setStatus('error');
+    }
+  }, [form]);
 
   return (
     <section className="zf-contact" id="contact">
@@ -65,9 +86,7 @@ const Contact: React.FC = () => {
 
           <div className="zf-contact-details">
             <div className={`zf-contact-item reveal reveal-up reveal-delay-1${isVisible ? ' is-visible' : ''}`}>
-              <div className="zf-contact-item-icon">
-                <MapPinIcon />
-              </div>
+              <div className="zf-contact-item-icon"><MapPinIcon /></div>
               <div className="zf-contact-item-text">
                 <span>Adresse</span>
                 <p>Rue de l&apos;Ile Falcon 29, 3960 Sierre</p>
@@ -75,28 +94,18 @@ const Contact: React.FC = () => {
             </div>
 
             <div className={`zf-contact-item reveal reveal-up reveal-delay-2${isVisible ? ' is-visible' : ''}`}>
-              <div className="zf-contact-item-icon">
-                <PhoneIcon />
-              </div>
+              <div className="zf-contact-item-icon"><PhoneIcon /></div>
               <div className="zf-contact-item-text">
                 <span>Téléphone</span>
-                <p>
-                  <a href="tel:+41787729150">078 772 91 50</a>
-                </p>
+                <p><a href="tel:+41787729150">078 772 91 50</a></p>
               </div>
             </div>
 
             <div className={`zf-contact-item reveal reveal-up reveal-delay-3${isVisible ? ' is-visible' : ''}`}>
-              <div className="zf-contact-item-icon">
-                <MailIcon />
-              </div>
+              <div className="zf-contact-item-icon"><MailIcon /></div>
               <div className="zf-contact-item-text">
                 <span>Email</span>
-                <p>
-                  <a href="mailto:info@zubercarrelage.ch">
-                    info@zubercarrelage.ch
-                  </a>
-                </p>
+                <p><a href="mailto:info@zubercarrelage.ch">info@zubercarrelage.ch</a></p>
               </div>
             </div>
           </div>
@@ -105,51 +114,65 @@ const Contact: React.FC = () => {
         {/* Right form column */}
         <div className={`zf-contact-form reveal reveal-right reveal-delay-2${isVisible ? ' is-visible' : ''}`}>
           <h3>Demandez un Devis Gratuit</h3>
-          {submitted && (
+
+          {status === 'success' && (
             <div className="zf-form-success">
-              Merci ! Votre client de messagerie va s&apos;ouvrir pour envoyer votre demande.
+              ✓ Merci ! Votre message a été envoyé. Nous vous répondrons dans les plus brefs délais.
             </div>
           )}
+
+          {status === 'error' && (
+            <div className="zf-form-error">
+              Une erreur s&apos;est produite. Veuillez réessayer ou nous contacter par email.
+            </div>
+          )}
+
           <form onSubmit={handleSubmit}>
             <div className="zf-form-group">
               <input
                 type="text"
-                name="userName"
+                name="from_name"
                 placeholder="Votre nom"
-                value={form.userName}
+                value={form.from_name}
                 onChange={handleChange}
                 required
+                disabled={status === 'sending'}
               />
             </div>
             <div className="zf-form-group">
               <input
                 type="tel"
-                name="userPhone"
+                name="from_phone"
                 placeholder="Numéro de téléphone"
-                value={form.userPhone}
+                value={form.from_phone}
                 onChange={handleChange}
+                disabled={status === 'sending'}
               />
             </div>
             <div className="zf-form-group">
               <input
                 type="email"
-                name="userEmail"
+                name="from_email"
                 placeholder="Adresse email"
-                value={form.userEmail}
+                value={form.from_email}
                 onChange={handleChange}
                 required
+                disabled={status === 'sending'}
               />
             </div>
             <div className="zf-form-group">
               <textarea
-                name="userMessage"
+                name="message"
                 placeholder="Décrivez votre projet (type de carrelage, surface, délai souhaité...)"
-                value={form.userMessage}
+                value={form.message}
                 onChange={handleChange}
                 required
+                disabled={status === 'sending'}
               />
             </div>
-            <button type="submit" className="btn-submit">Envoyer le Message</button>
+            <button type="submit" className="btn-submit" disabled={status === 'sending'}>
+              {status === 'sending' ? 'Envoi en cours...' : 'Envoyer le Message'}
+            </button>
           </form>
         </div>
       </div>
