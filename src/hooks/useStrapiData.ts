@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { StrapiResponse } from '../types/strapi';
 
-const STRAPI_BASE_URL = process.env.GATSBY_STRAPI_URL ?? 'http://localhost:1337';
+const STRAPI_BASE_URL = process.env.GATSBY_STRAPI_URL ?? 'https://zubercarrelage-backend-production.up.railway.app';
 const STRAPI_TOKEN = process.env.GATSBY_STRAPI_TOKEN ?? '';
 
 export interface UseStrapiDataResult<T> {
