@@ -2,7 +2,7 @@ import type { StrapiHomeData, StrapiHistoryData, StrapiMedia, StrapiServiceData 
 
 const resolveMediaUrl = (media: StrapiMedia, baseUrl: string): StrapiMedia => ({
   ...media,
-  url: `${baseUrl}${media.url}`,
+  url: media.url.startsWith('http') ? media.url : `${baseUrl}${media.url}`,
 });
 
 export const mapStrapiHome = (raw: StrapiHomeData, baseUrl: string): StrapiHomeData => ({
