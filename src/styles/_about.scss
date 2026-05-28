@@ -38,6 +38,10 @@
   transform: scale(1.04);
 }
 
+.zf-company-img-wrap:hover {
+  box-shadow: 0 20px 60px rgba(0, 171, 169, 0.2);
+}
+
 // TEXT COLUMN
 .zf-company-text {
   display: flex;
@@ -121,7 +125,7 @@
   font-family: var(--font-heading);
   font-size: clamp(36px, 4vw, 52px);
   font-weight: 700;
-  color: var(--white);
+  color: var(--accent);
   display: block;
   line-height: 1;
   margin-bottom: 8px;

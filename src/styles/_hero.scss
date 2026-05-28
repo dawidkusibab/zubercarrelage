@@ -36,7 +36,7 @@
   font-family: var(--font-italic);
   font-style: italic;
   font-size: 18px;
-  color: var(--terracotta);
+  color: var(--accent);
   margin-bottom: 20px;
   display: block;
 }
@@ -90,7 +90,7 @@
   top: 50%;
   transform: translate(42%, -50%);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.2);
-  border: none;
+  border: 3px solid var(--accent);
   filter: grayscale(100%);
 }
 
