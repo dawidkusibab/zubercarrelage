@@ -38,6 +38,7 @@ export const Head: HeadFC = () => (
   <>
     <html lang="fr" />
     <title>Zuber &amp; Fils Carrelage | Sierre</title>
+    <link rel="icon" type="image/png" href="/icon.png" />
     <meta
       name="description"
       content="Zuber & Fils Carrelage — Maîtrises fédérales, expert en cas de litige, formateur en entreprises et expert au CFC. Sierre, Valais."
