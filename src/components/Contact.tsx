@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import emailjs from '@emailjs/browser';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import useStrapiContact from '../hooks/useStrapiContact';
 
 const SERVICE_ID  = 'service_tog9uv1';
 const TEMPLATE_ID = 'template_pjts9mr';
@@ -35,6 +36,14 @@ const MailIcon: React.FC = () => (
   </svg>
 );
 
+const toTelHref = (phone: string): string => {
+  const digits = phone.replace(/\D/g, '');
+  if (digits.startsWith('0041')) return `tel:+${digits.slice(2)}`;
+  if (digits.startsWith('41') && digits.length >= 11) return `tel:+${digits}`;
+  if (digits.startsWith('0')) return `tel:+41${digits.slice(1)}`;
+  return `tel:+41${digits}`;
+};
+
 const Contact: React.FC = () => {
   const [form, setForm] = useState<FormState>({
     from_name:  '',
@@ -45,6 +54,11 @@ const Contact: React.FC = () => {
   const [status, setStatus] = useState<Status>('idle');
 
   const { ref, isVisible } = useScrollReveal(0.15);
+  const { data, error } = useStrapiContact();
+
+  if (process.env.NODE_ENV === 'development' && error) {
+    console.error('[Contact] Strapi fetch failed:', error);
+  }
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -89,7 +103,7 @@ const Contact: React.FC = () => {
               <div className="zf-contact-item-icon"><MapPinIcon /></div>
               <div className="zf-contact-item-text">
                 <span>Adresse</span>
-                <p>Rue de l&apos;Ile Falcon 29, 3960 Sierre</p>
+                <p>{data?.address ?? "Rue de l'Ile Falcon 29, 3960 Sierre"}</p>
               </div>
             </div>
 
@@ -97,7 +111,7 @@ const Contact: React.FC = () => {
               <div className="zf-contact-item-icon"><PhoneIcon /></div>
               <div className="zf-contact-item-text">
                 <span>Téléphone</span>
-                <p><a href="tel:+41787729150">078 772 91 50</a></p>
+                <p><a href={data?.phone ? toTelHref(data.phone) : 'tel:+41787729150'}>{data?.phone ?? '078 772 91 50'}</a></p>
               </div>
             </div>
 
@@ -105,7 +119,7 @@ const Contact: React.FC = () => {
               <div className="zf-contact-item-icon"><MailIcon /></div>
               <div className="zf-contact-item-text">
                 <span>Email</span>
-                <p><a href="mailto:info@zubercarrelage.ch">info@zubercarrelage.ch</a></p>
+                <p><a href={data?.email ? `mailto:${data.email}` : 'mailto:info@zubercarrelage.ch'}>{data?.email ?? 'info@zubercarrelage.ch'}</a></p>
               </div>
             </div>
           </div>

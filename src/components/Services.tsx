@@ -6,8 +6,20 @@ import balconyImg from '../images/balcony.png';
 import renovationImg from '../images/renovation.png';
 import maconnerieImg from '../images/maconnerie.png';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import useStrapiService from '../hooks/useStrapiService';
 
 const MAX_REVEAL_DELAY = 6; // must match the highest .reveal-delay-N class in _animations.scss
+
+const normalizeKey = (s: string): string => s.trim().toLowerCase();
+
+const LOCAL_IMAGE_FALLBACKS: Record<string, string> = {
+  [normalizeKey('Pose de Carrelage')]: carrelageImg,
+  [normalizeKey('Mosaïque & Grand Format')]: mosaicImg,
+  [normalizeKey('Piscine & Wellness')]: poolImg,
+  [normalizeKey('Balcon & Terrasse')]: balconyImg,
+  [normalizeKey('Rénovation')]: renovationImg,
+  [normalizeKey('Petite Maçonnerie')]: maconnerieImg,
+};
 
 interface ServiceCard {
   img: string;
@@ -16,7 +28,7 @@ interface ServiceCard {
   desc: string;
 }
 
-const serviceCards: ServiceCard[] = [
+const fallbackServiceCards: ServiceCard[] = [
   {
     img: carrelageImg,
     alt: 'Pose de carrelage',
@@ -58,6 +70,14 @@ const serviceCards: ServiceCard[] = [
 const Services: React.FC = () => {
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal(0.2);
   const { ref: gridRef, isVisible: gridVisible } = useScrollReveal(0.1);
+  const { data, error } = useStrapiService();
+
+  if (process.env.NODE_ENV === 'development' && error) {
+    console.error('[Services] Strapi fetch failed:', error);
+  }
+
+  const subtitle = data?.subtitle ?? 'Ce que nous faisons';
+  const title = data?.title ?? 'Nos Services';
 
   return (
     <section className="zf-services" id="services">
@@ -65,25 +85,45 @@ const Services: React.FC = () => {
         ref={headerRef}
         className={`zf-section-header reveal reveal-up${headerVisible ? ' is-visible' : ''}`}
       >
-        <span className="zf-section-tag">Ce que nous faisons</span>
-        <h2 className="zf-section-title">Nos Services</h2>
+        <span className="zf-section-tag">{subtitle}</span>
+        <h2 className="zf-section-title">{title}</h2>
       </div>
 
       <div ref={gridRef} className="zf-services-cards">
-        {serviceCards.map((card, i) => (
-          <div
-            key={card.title}
-            className={`zf-cat-card zf-icon-card zf-service-card reveal reveal-up reveal-delay-${Math.min(i + 1, MAX_REVEAL_DELAY)}${gridVisible ? ' is-visible' : ''}`}
-          >
-            <div className="zf-cat-img-circle-wrap">
-              <img src={card.img} alt={card.alt} className="zf-cat-img-circle" />
-            </div>
-            <div className="zf-cat-body">
-              <h3 className="zf-cat-name">{card.title}</h3>
-              <p className="zf-cat-desc">{card.desc}</p>
-            </div>
-          </div>
-        ))}
+        {data
+          ? data.services.map((item, i) => (
+              <div
+                key={item.id}
+                className={`zf-cat-card zf-icon-card zf-service-card reveal reveal-up reveal-delay-${Math.min(i + 1, MAX_REVEAL_DELAY)}${gridVisible ? ' is-visible' : ''}`}
+              >
+                <div className="zf-cat-img-circle-wrap">
+                  {(() => {
+                    const imgSrc = item.image?.url ?? LOCAL_IMAGE_FALLBACKS[normalizeKey(item.title)];
+                    return imgSrc !== undefined ? (
+                      <img src={imgSrc} alt={item.image?.alternativeText ?? item.title} className="zf-cat-img-circle" />
+                    ) : null;
+                  })()}
+                </div>
+                <div className="zf-cat-body">
+                  <h3 className="zf-cat-name">{item.title}</h3>
+                  <p className="zf-cat-desc">{item.description}</p>
+                </div>
+              </div>
+            ))
+          : fallbackServiceCards.map((card, i) => (
+              <div
+                key={card.title}
+                className={`zf-cat-card zf-icon-card zf-service-card reveal reveal-up reveal-delay-${Math.min(i + 1, MAX_REVEAL_DELAY)}${gridVisible ? ' is-visible' : ''}`}
+              >
+                <div className="zf-cat-img-circle-wrap">
+                  <img src={card.img} alt={card.alt} className="zf-cat-img-circle" />
+                </div>
+                <div className="zf-cat-body">
+                  <h3 className="zf-cat-name">{card.title}</h3>
+                  <p className="zf-cat-desc">{card.desc}</p>
+                </div>
+              </div>
+            ))}
       </div>
     </section>
   );

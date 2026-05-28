@@ -1,13 +1,35 @@
 import React from 'react';
-import img1 from '../images/1.jpg';
-import img2 from '../images/2.jpg';
 import { smoothScrollTo } from '../utils/smoothScroll';
+import useStrapiHome from '../hooks/useStrapiHome';
+
+const FALLBACK_TITLE = 'Zuber & Fils Carrelage';
+const FALLBACK_SUBTITLE =
+  'Maîtrises fédérales, expert en cas de litige, formateur en entreprises et expert au CFC';
+const FALLBACK_DESCRIPTION =
+  "Depuis 1988, nous posons le carrelage avec la précision d'un maître fédéral et la passion d'une famille. Rénovation, nouvelle construction ou projet sur mesure — chaque détail est soigné, chaque réalisation est unique.";
+const FALLBACK_ALT1 = 'Pose de carrelage';
+const FALLBACK_ALT2 = 'Réalisation carrelage';
 
 const Hero: React.FC = () => {
+  const { data, error } = useStrapiHome();
+
+  if (process.env.NODE_ENV === 'development' && error) {
+    console.error('[Hero] Strapi fetch failed:', error);
+  }
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     smoothScrollTo(href);
   };
+
+  const title = data?.title ?? FALLBACK_TITLE;
+  const subtitle = data?.subtitle ?? FALLBACK_SUBTITLE;
+  const description = data?.description ?? FALLBACK_DESCRIPTION;
+
+  const img1Src = data?.image1?.url ?? null;
+  const img1Alt = data?.image1?.alternativeText ?? FALLBACK_ALT1;
+  const img2Src = data?.image2?.url ?? null;
+  const img2Alt = data?.image2?.alternativeText ?? FALLBACK_ALT2;
 
   return (
     <section className="zf-hero" id="home">
@@ -40,34 +62,43 @@ const Hero: React.FC = () => {
 
       <div className="zf-hero-container">
         <div className="zf-hero-text">
-          <span className="zf-hero-tagline hero-tagline-anim">
-            Maîtrises fédérales, expert en cas de litige, formateur en entreprises et expert au CFC
-          </span>
-          <h1 className="zf-hero-title hero-title-anim">Zuber &amp; Fils Carrelage</h1>
-          <p className="zf-hero-sub hero-sub-anim">
-            Depuis 1988, nous posons le carrelage avec la précision d&apos;un maître fédéral et la passion d&apos;une famille. Rénovation, nouvelle construction ou projet sur mesure — chaque détail est soigné, chaque réalisation est unique.
-          </p>
+          <span className="zf-hero-tagline hero-tagline-anim">{subtitle}</span>
+          <h1 className="zf-hero-title hero-title-anim">{title}</h1>
+          <p className="zf-hero-sub hero-sub-anim">{description}</p>
           {/* Desktop button */}
-          <a href="#portfolio" className="btn-gallery hero-btn-anim zf-hero-btn-desktop" onClick={(e) => handleNavClick(e, '#portfolio')}>
+          <a
+            href="#portfolio"
+            className="btn-gallery hero-btn-anim zf-hero-btn-desktop"
+            onClick={(e) => handleNavClick(e, '#portfolio')}
+          >
             Voir Notre Galerie
           </a>
         </div>
 
         <div className="zf-hero-images">
-          <img
-            src={img1}
-            alt="Pose de carrelage"
-            className="zf-hero-img-main hero-img-main-anim"
-          />
-          <img
-            src={img2}
-            alt="Réalisation carrelage"
-            className="zf-hero-img-small hero-img-small-anim"
-          />
+          {img1Src !== null && (
+            <img
+              src={img1Src}
+              alt={img1Alt}
+              className="zf-hero-img-main hero-img-main-anim"
+            />
+          )}
+          {img2Src !== null && (
+            <img
+              src={img2Src}
+              alt={img2Alt}
+              className="zf-hero-img-small hero-img-small-anim"
+            />
+          )}
         </div>
 
         {/* Mobile button — shown below image on mobile only */}
-        <a href="#portfolio" className="btn-gallery hero-btn-anim zf-hero-btn-mobile" onClick={(e) => handleNavClick(e, '#portfolio')}>
+        <a
+          href="#portfolio"
+          className="btn-gallery hero-btn-anim zf-hero-btn-mobile"
+          onClick={(e) => handleNavClick(e, '#portfolio')}
+          aria-hidden="true"
+        >
           Voir Notre Galerie
         </a>
       </div>
