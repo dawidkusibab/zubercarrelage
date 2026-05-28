@@ -56,11 +56,11 @@
       font-family: var(--font-body);
       font-size: 18px;
       font-weight: 500;
-      border-bottom: 1px solid rgba(0, 171, 169, 0.15);
+      border-bottom: 1px solid var(--beige);
       text-transform: capitalize;
       transition: color 0.2s;
 
-      &:hover { color: var(--accent); }
+      &:hover { color: var(--terracotta); }
     }
   }
 }

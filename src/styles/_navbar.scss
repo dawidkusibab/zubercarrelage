@@ -57,8 +57,8 @@
     text-transform: capitalize;
     letter-spacing: 0.3px;
 
-    &:hover { color: var(--terracotta); }
-    &.active { color: var(--accent); }
+    &:hover,
+    &.active { color: var(--terracotta); }
   }
 }
 
