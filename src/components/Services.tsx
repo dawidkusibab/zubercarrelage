@@ -79,6 +79,8 @@ const Services: React.FC = () => {
   const subtitle = data?.subtitle ?? 'Ce que nous faisons';
   const title = data?.title ?? 'Nos Services';
 
+  console.log(data?.services);
+
   return (
     <section className="zf-services" id="services">
       <div

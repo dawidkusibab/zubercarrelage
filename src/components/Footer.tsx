@@ -28,6 +28,9 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
+        {/* Empty column */}
+        <div />
+
         {/* Navigation */}
         <div className={`zf-footer-col reveal reveal-up reveal-delay-2${isVisible ? ' is-visible' : ''}`}>
           <h4>Navigation</h4>
@@ -41,25 +44,6 @@ const Footer: React.FC = () => {
             ].map(({ href, label }) => (
               <li key={href}>
                 <a href={href} onClick={(e) => handleNavClick(e, href)}>{label}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Services */}
-        <div className={`zf-footer-col reveal reveal-up reveal-delay-3${isVisible ? ' is-visible' : ''}`}>
-          <h4>Nos Services</h4>
-          <ul className="zf-footer-links">
-            {[
-              'Pose de carrelage',
-              'Mosaïque & grand format',
-              'Piscine & wellness',
-              'Balcon & terrasse',
-              'Petite maçonnerie',
-              'Réparation & entretien',
-            ].map((service) => (
-              <li key={service}>
-                <a href="#services" onClick={(e) => handleNavClick(e, '#services')}>{service}</a>
               </li>
             ))}
           </ul>
