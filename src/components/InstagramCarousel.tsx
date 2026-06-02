@@ -1,33 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import type { FeedPost } from '../types/instagram';
+import { getImageUrl, getCaption } from '../utils/instagramHelpers';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/zubercarrelage/';
 const FEED_API = process.env.GATSBY_INSTAGRAM_FEED_URL ?? 'https://instagram-feed-api-production.up.railway.app/api/feed';
-
-interface FeedPostSize {
-  mediaUrl: string;
-  height: number;
-  width: number;
-}
-
-interface FeedPost {
-  id: string;
-  mediaUrl?: string;
-  mediaType: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
-  caption: string;
-  timestamp: string;
-  permalink: string;
-  thumbnailUrl?: string;
-  sizes: {
-    small:  FeedPostSize;
-    medium: FeedPostSize;
-    large:  FeedPostSize;
-  };
-}
+const STRAPI_URL = process.env.GATSBY_STRAPI_URL ?? 'https://zubercarrelage-backend-production.up.railway.app';
+const STRAPI_TOKEN = process.env.GATSBY_STRAPI_TOKEN ?? '';
 
 interface Feed {
   posts: FeedPost[];
 }
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
 const getVisibleCount = (): number => {
   if (typeof window === 'undefined') return 4;
@@ -36,15 +23,9 @@ const getVisibleCount = (): number => {
   return 3;
 };
 
-const getImageUrl = (post: FeedPost): string => {
-  if (post.sizes?.medium?.mediaUrl) return post.sizes.medium.mediaUrl;
-  if (post.sizes?.large?.mediaUrl) return post.sizes.large.mediaUrl;
-  if (post.sizes?.small?.mediaUrl) return post.sizes.small.mediaUrl;
-  return post.mediaType === 'VIDEO' && post.thumbnailUrl ? post.thumbnailUrl : (post.mediaUrl ?? '');
-};
-
-const getCaption = (post: FeedPost): string =>
-  post.caption ? post.caption.slice(0, 80) + (post.caption.length > 80 ? '…' : '') : '';
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
 
 const InstagramCarousel: React.FC = () => {
   const [posts, setPosts] = useState<FeedPost[]>([]);
@@ -55,15 +36,39 @@ const InstagramCarousel: React.FC = () => {
 
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal(0.1);
 
-  // Fetch posts at runtime
+  // Fetch posts and exclusions in parallel
   useEffect(() => {
-    fetch(FEED_API)
-      .then(res => {
-        if (!res.ok) throw new Error('fetch failed');
-        return res.json() as Promise<Feed>;
-      })
-      .then(data => {
-        setPosts(data.posts ?? []);
+    const feedPromise = fetch(FEED_API).then(res => {
+      if (!res.ok) throw new Error('fetch failed');
+      return res.json() as Promise<Feed>;
+    });
+
+    const fetchExclusions = async (): Promise<string[]> => {
+      try {
+        const res = await fetch(`${STRAPI_URL}/api/instagram-excluded-posts`, {
+          headers: { Authorization: `Bearer ${STRAPI_TOKEN}` },
+        });
+        if (!res.ok) throw new Error(`Strapi responded with ${res.status}`);
+        const json = (await res.json()) as { data: { postId: string }[] };
+        return json.data.map(entry => entry.postId);
+      } catch (err) {
+        console.warn(
+          '[InstagramCarousel] Strapi exclusions fetch failed — showing full feed.',
+          err
+        );
+        return [];
+      }
+    };
+
+    const exclusionsPromise = fetchExclusions();
+
+    Promise.all([feedPromise, exclusionsPromise])
+      .then(([feedData, excludedPostIds]) => {
+        const allPosts = feedData.posts ?? [];
+
+        const excludedIds = new Set(excludedPostIds);
+        setPosts(allPosts.filter(p => !excludedIds.has(p.id)));
+
         setLoading(false);
       })
       .catch(() => {
@@ -96,6 +101,11 @@ const InstagramCarousel: React.FC = () => {
 
   const totalDots = Math.ceil(posts.length / (visibleCount ?? 4));
   const activeDot = Math.floor(currentIndex / (visibleCount ?? 4));
+
+  // AC #12: hide entirely if zero posts remain after filtering
+  if (!loading && !error && posts.length === 0) {
+    return null;
+  }
 
   return (
     <section id="portfolio" className="zf-instagram">
@@ -190,11 +200,11 @@ const InstagramCarousel: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="zf-ig-card"
-                      aria-label={`Voir la publication Instagram: ${getCaption(post) || 'Photo'}`}
+                      aria-label={`Voir la publication Instagram: ${getCaption(post.caption) || 'Photo'}`}
                     >
                       <img
                         src={getImageUrl(post)}
-                        alt={getCaption(post) || 'Zuber Carrelage Instagram'}
+                        alt={getCaption(post.caption) || 'Zuber Carrelage Instagram'}
                         className="zf-ig-card-img"
                         loading="lazy"
                       />
@@ -206,7 +216,7 @@ const InstagramCarousel: React.FC = () => {
                         {post.mediaType === 'CAROUSEL_ALBUM' && (
                           <div className="zf-ig-album-badge">⊞</div>
                         )}
-                        <p className="zf-ig-card-caption">{getCaption(post)}</p>
+                        <p className="zf-ig-card-caption">{getCaption(post.caption)}</p>
                       </div>
                     </a>
                   </div>
