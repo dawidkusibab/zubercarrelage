@@ -4,7 +4,7 @@ import type { FeedPost } from '../types/instagram';
 import { getImageUrl, getCaption } from '../utils/instagramHelpers';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/zubercarrelage/';
-const FEED_API = process.env.GATSBY_INSTAGRAM_FEED_URL ?? 'https://instagram-feed-api-production.up.railway.app/api/feed';
+const FEED_API = process.env.GATSBY_INSTAGRAM_FEED_URL ?? 'https://carousel-feed-api-production.up.railway.app/api/feed';
 const STRAPI_URL = process.env.GATSBY_STRAPI_URL ?? 'https://zubercarrelage-backend-production.up.railway.app';
 const STRAPI_TOKEN = process.env.GATSBY_STRAPI_TOKEN ?? '';
 

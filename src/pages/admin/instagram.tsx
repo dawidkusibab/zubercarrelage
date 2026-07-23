@@ -21,7 +21,7 @@ type CardStateMap = Record<string, CardState>;
 
 const FEED_API =
   process.env.GATSBY_INSTAGRAM_FEED_URL ??
-  'https://instagram-feed-api-production.up.railway.app/api/feed';
+  'https://carousel-feed-api-production.up.railway.app/api/feed';
 
 const STRAPI_URL =
   process.env.GATSBY_STRAPI_URL ??

@@ -34,7 +34,7 @@
 Create the Node.js project that will host all API routes, the OAuth flow, and the admin UI.
 
 **Steps:**
-1. `mkdir instagram-feed-api && cd instagram-feed-api && git init`
+1. `mkdir carousel-feed-api && cd carousel-feed-api && git init`
 2. `npm init -y`
 3. Install core dependencies:
    ```bash
